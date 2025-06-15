@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('threads', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('board_id')->comment('所属する板のID');
             $table->string('name')->comment('スレッド名');
             $table->unsignedBigInteger('sequence')->comment('並び順');
