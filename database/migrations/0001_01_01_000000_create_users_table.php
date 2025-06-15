@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password')->comment('パスワード');
             $table->rememberToken();
             $table->timestamps();
+            $table->comment('ユーザテーブル');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
