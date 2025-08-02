@@ -99,9 +99,9 @@ div.inner_wrap > div.tname{
 </style>
 
 <script lang="ts">
-const props = defineProps({
-    data: Object,
-});
+// const props = defineProps({
+//     data: Object,
+// });
 
 const dateformat = (date: string) : string =>
 {
