@@ -1,48 +1,59 @@
-name: Laravel Local CI
+name: Laravel CI
 
 on:
-    push:
-        branches: [ "main" ]   # mainブランチにpushされたとき
-    pull_request:
-        branches: [ "main" ]   # mainブランチにPRが来たとき
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-    tests:
-        runs-on: ubuntu-latest
+  laravel-tests:
+    runs-on: ubuntu-latest
 
-        services:
-            mariadb:
-                image: mariadb:11
-                env:
-                    MYSQL_ROOT_PASSWORD: password
-                    MYSQL_DATABASE: test
-                options: >-
-                    --health-cmd="mysqladmin ping -h 127.0.0.1 -usail -ppassword"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=3
+    services:
+      mariadb:
+        image: mariadb:11
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+          MYSQL_USER: sail
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -upassword -ppassword"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
-        steps:
-            - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-            - name: Set up PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.4'
-                  extensions: mbstring, pdo_mysql, bcmath, intl
-                  coverage: none
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          extensions: mbstring, pdo_mysql, bcmath, intl
+          coverage: none
 
-            - name: Install dependencies
-              run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-            - name: Copy .env
-              run: cp .env.example .env
+      - name: Copy .env
+        run: cp .env.example .env
 
-            - name: Generate key
-              run: php artisan key:generate
+      - name: Generate app key
+        run: php artisan key:generate
 
-            - name: Run migrations
-              run: php artisan migrate --force
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -hmariadb -usail -ppassword --silent; do
+            echo "Waiting for database..."
+            sleep 2
+          done
 
-            - name: Run tests
-              run: php artisan test
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Run tests
+        run: php artisan test
