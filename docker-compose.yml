@@ -41,7 +41,7 @@ services:
         networks:
             - sail
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppassword"]
+            test: ["CMD", "mysqladmin", "ping", "-h", "-hmariadb", "-usail", "-ppassword"]
             interval: 5s
             timeout: 5s
             retries: 60
