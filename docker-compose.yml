@@ -40,9 +40,10 @@ services:
         networks:
             - sail
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USERNAME}", "-p${DB_PASSWORD}"]
-            retries: 5
-            timeout: 5s
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            retries: 30
+            timeout: 30s
     mailpit:
         image: 'axllent/mailpit:latest'
         ports:
