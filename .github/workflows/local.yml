@@ -47,9 +47,9 @@ jobs:
 
             - name: Wait for MySQL
               run: |
-                  until mysqladmin ping -hmysql -usail -ppassword --silent; do
+                  until mysqladmin ping -hmysql -uroot -ppassword --silent; do
                       echo "Waiting for database..."
-                      sleep 2
+                      sleep 10
                   done
 
             - name: Run migrations
