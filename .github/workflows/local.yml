@@ -22,7 +22,7 @@ jobs:
                 ports:
                     - 3306:3306
                 options: >-
-                    --health-cmd="mysqladmin ping"
+                    --health-cmd="mysqladmin ping -h localhost"
                     --health-start-period 30s
                     --health-interval 10s
                     --health-timeout 5s
