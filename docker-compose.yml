@@ -23,29 +23,25 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
+            - mariadb
             - mailpit
             - minio
-    mysql:
-        image: 'mysql/mysql-server:8.0'
+    mariadb:
+        image: 'mariadb:11'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_HOST: '%'
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - 'sail-mariadb:/var/lib/mysql'
         networks:
             - sail
         healthcheck:
-            test:
-                - CMD
-                - healthcheck.sh
-                - '--connect'
-                - '--innodb_initialized'
-            retries: 3
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USERNAME}", "-p${DB_PASSWORD}"]
+            retries: 5
             timeout: 5s
     mailpit:
         image: 'axllent/mailpit:latest'

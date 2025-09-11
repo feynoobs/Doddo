@@ -11,8 +11,8 @@ jobs:
         runs-on: ubuntu-latest
 
         services:
-            mysql:
-                image: 'mysql/mysql-server:8.0'
+            mariadb:
+                image: 'mariadb:11'
                 env:
                     MYSQL_ROOT_PASSWORD: password
                     MYSQL_DATABASE: test
@@ -21,7 +21,7 @@ jobs:
                 ports:
                     - 3306:3306
                 options: >-
-                    --health-cmd="mysqladmin ping -hmysql -usail -ppassword"
+                    --health-cmd="mysqladmin ping -hmariadb -uroot -ppassword"
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
@@ -45,11 +45,11 @@ jobs:
             - name: Generate app key
               run: php artisan key:generate
 
-            - name: Wait for MySQL
+            - name: Wait for MariaDB
               run: |
-                  until mysqladmin ping -hmysql -uroot -ppassword --silent; do
+                  until mysqladmin ping -hmariadb -uroot -ppassword --silent; do
                       echo "Waiting for database..."
-                      sleep 10
+                      sleep 5
                   done
 
             - name: Run migrations
