@@ -21,7 +21,7 @@ jobs:
                 ports:
                     - 3306:3306
                 options: >-
-                    --health-cmd="mariadb-admin ping -hmariadb -uroot -ppassword"
+                    --health-cmd="mysqladmin ping -hmariadb -uroot -ppassword"
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
@@ -47,7 +47,7 @@ jobs:
 
             - name: Wait for MariaDB
               run: |
-                  until mariadb-admin ping -hmariadb -uroot -ppassword --silent; do
+                  until mysqladmin ping -hmariadb -uroot -ppassword --silent; do
                       echo "Waiting for database..."
                       sleep 5
                   done
