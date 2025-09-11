@@ -18,13 +18,15 @@ jobs:
                     MYSQL_DATABASE: test
                     MYSQL_USER: sail
                     MYSQL_PASSWORD: password
+                    MYSQL_ALLOW_EMPTY_PASSWORD: 1
                 ports:
                     - 3306:3306
                 options: >-
-                    --health-cmd="mysqladmin ping -hmariadb -uroot -ppassword"
-                    --health-interval=10s
-                    --health-timeout=5s
-                    --health-retries=5
+                    --health-cmd="mysqladmin ping"
+                    --health-start-period 30s
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
 
         steps:
             - uses: actions/checkout@v3
