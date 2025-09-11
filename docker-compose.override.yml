@@ -2,7 +2,7 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         environment:
-            PMA_HOST: mariadb
+            PMA_HOST: mysql
             PMA_USER: '${DB_USERNAME}'
             PMA_PASSWORD: '${DB_PASSWORD}'
         ports:
@@ -10,4 +10,4 @@ services:
         networks:
             - sail
         depends_on:
-            - mariadb
+            - mysql

@@ -23,11 +23,11 @@ services:
         networks:
             - sail
         depends_on:
-            - mariadb
+            - mysql
             - mailpit
             - minio
-    mariadb:
-        image: 'mariadb:11'
+    mysql:
+        image: 'mysql/mysql-server:8.0'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
