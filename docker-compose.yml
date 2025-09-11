@@ -27,7 +27,7 @@ services:
             - mailpit
             - minio
     mariadb:
-        image: 'mariadb:11'
+        image: 'mariadb:10.11'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
