@@ -86,6 +86,7 @@ class PostControllerTest extends TestCase
         // Create request data with only required message field
         $requestData = [
             'thread_id' => $thread->id,
+            'ip' => '127.0.0.1',
             'message' => 'Anonymous message'
         ];
 
@@ -103,6 +104,7 @@ class PostControllerTest extends TestCase
             'thread_id' => $thread->id,
             'name' => null,
             'email' => null,
+            'ip' => '127.0.0.1',
             'message' => 'Anonymous message'
         ]);
     }
@@ -130,7 +132,43 @@ class PostControllerTest extends TestCase
         // Create request data without required message field
         $requestData = [
             'thread_id' => $thread->id,
+            'ip' => '127.0.0.1',
             'name' => 'Test User'
+        ];
+
+        $request = Request::create('/api/post', 'POST', $requestData);
+
+        // Execute the controller and expect validation exception
+        $controller = new PostController();
+        
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
+        $controller($request);
+    }
+
+    public function test_post_controller_validates_required_ip_field(): void
+    {
+        // Create test data
+        $group = Group::create([
+            'name' => 'Test Group',
+            'sequence' => 1
+        ]);
+
+        $board = Board::create([
+            'group_id' => $group->id,
+            'name' => 'Test Board',
+            'sequence' => 1
+        ]);
+
+        $thread = Thread::create([
+            'board_id' => $board->id,
+            'name' => 'Test Thread',
+            'sequence' => 1
+        ]);
+
+        // Create request data without required ip field
+        $requestData = [
+            'thread_id' => $thread->id,
+            'message' => 'Test message'
         ];
 
         $request = Request::create('/api/post', 'POST', $requestData);
@@ -165,6 +203,7 @@ class PostControllerTest extends TestCase
         // Create request data
         $requestData = [
             'thread_id' => $thread->id,
+            'ip' => '127.0.0.1',
             'message' => 'Test message'
         ];
 

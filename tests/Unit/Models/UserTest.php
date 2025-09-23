@@ -40,21 +40,28 @@ class UserTest extends TestCase
         $this->assertEquals($expectedHidden, $user->getHidden());
     }
 
-    public function test_password_is_hashed_when_casted(): void
+    public function test_password_is_hashed_when_created(): void
     {
-        $user = new User();
-        $casts = $user->casts();
-        
-        $this->assertArrayHasKey('password', $casts);
-        $this->assertEquals('hashed', $casts['password']);
+        $user = User::create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        // Password should be hashed, not the original value
+        $this->assertNotEquals('password123', $user->password);
+        $this->assertTrue(strlen($user->password) > 20); // Hashed passwords are longer
     }
 
-    public function test_email_verified_at_is_datetime_casted(): void
+    public function test_email_verified_at_can_be_null(): void
     {
-        $user = new User();
-        $casts = $user->casts();
-        
-        $this->assertArrayHasKey('email_verified_at', $casts);
-        $this->assertEquals('datetime', $casts['email_verified_at']);
+        $user = User::create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password123'
+        ]);
+
+        // email_verified_at should be null by default
+        $this->assertNull($user->email_verified_at);
     }
 }

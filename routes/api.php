@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\ThreadListController;
 use App\Http\Controllers\Api\ResponseListController;
 use App\Http\Controllers\Api\PostController;
 
-Route::group(['name' => 'api.', 'middleware' => ['api']], function() {
+Route::group(['as' => 'api.', 'middleware' => ['api']], function() {
     Route::post('/boards', BoardListContoller::class)->name('boards');
     Route::post('/threads', ThreadListController::class)->name('threads');
     Route::post('/responses', ResponseListController::class)->name('responses');

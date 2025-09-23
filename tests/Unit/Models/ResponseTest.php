@@ -109,14 +109,14 @@ class ResponseTest extends TestCase
             'thread_id' => $thread->id,
             'name' => null,
             'email' => null,
-            'ip' => '255.255.255.255',
+            'ip' => '127.0.0.1',
             'message' => 'Anonymous message'
         ]);
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertNull($response->name);
         $this->assertNull($response->email);
-        $this->assertEquals('255.255.255.255', $response->ip);
+        $this->assertEquals('127.0.0.1', $response->ip);
         $this->assertEquals('Anonymous message', $response->message);
     }
 
