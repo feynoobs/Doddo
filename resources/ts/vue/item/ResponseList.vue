@@ -1,8 +1,8 @@
 <template>
-    <div class="inner_wrap" v-if="props.data !== undefined">
-        <div class="tname">{{ props.data!.thread.name }}</div>
+    <div class="inner_wrap" v-if="data !== undefined">
+        <div class="tname">{{ data!.thread.name }}</div>
         <dl class="response">
-            <template v-for="(v, k) in props.data!.responses">
+            <template v-for="(v, k) in data!.responses">
                 <dt>
                     <span class="id">{{ k+1 }}</span>
                     <span class="name">名前:</span>
@@ -98,10 +98,10 @@ div.inner_wrap > div.tname{
 }
 </style>
 
-<script lang="ts">
-// const props = defineProps({
-//     data: Object,
-// });
+<script setup lang="ts">
+defineProps({
+    data: Object,
+});
 
 const dateformat = (date: string) : string =>
 {
