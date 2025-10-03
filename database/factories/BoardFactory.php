@@ -19,6 +19,7 @@ class BoardFactory extends Factory
         return [
             'group_id' => fake()->numberBetween(1, 4),
             'name' => fake()->realText(10),
+            'default_response_name' => fake()->realText(10),
             'sequence' => fake()->numberBetween(1, 10),
         ];
     }

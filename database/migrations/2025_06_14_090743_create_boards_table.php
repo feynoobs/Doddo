@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('group_id')->comment('所属するグループのID');
             $table->string('name')->comment('板名');
             $table->unsignedBigInteger('sequence')->comment('並び順');
+            $table->string('default_response_name')->comment('名前がからのときの名前');
             $table->softDeletes();
             $table->timestamps();
             $table->comment('板テーブル');

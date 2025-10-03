@@ -20,6 +20,7 @@ class Board extends Model
         'group_id',
         'name',
         'sequence',
+        'default_response_name'
     ];
 
     public function threads(): HasMany
