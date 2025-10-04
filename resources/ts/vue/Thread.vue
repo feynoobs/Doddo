@@ -43,7 +43,6 @@ div.wrap > div > input.border {
     border: 1px solid #ccc;
     padding: 5px;
 }
-
 </style>
 
 <script setup lang="ts">
@@ -53,10 +52,13 @@ import ResponseList from './item/ResponseList.vue'
 import http from '../http'
 import { Pinia } from '../pinia'
 
+import { useForm } from 'vee-validate'
+import * as yup from 'yup'
+
 const props = defineProps({
     id: Number
-});
-console.log(props.id)
+})
+
 const data = ref<{value: any}>()
 
 const params = new URLSearchParams()
@@ -74,6 +76,13 @@ http
 const name = ref<string>()
 const email = ref<string>()
 const message = ref<string>()
+
+const schema = yup.object({
+    name: yup.string().nullable(),
+    email: yup.string().nullable(),
+    message: yup.string().required('メッセージは必須です'),
+})
+const { handleSubmit, errors, values } = useForm({ validationSchema: schema })
 
 const post = () => {
     const params = new URLSearchParams()
@@ -95,9 +104,11 @@ const post = () => {
     })
     .then(res => {
             data.value = res.data
+            alert('投稿しました')
     })
     .catch(e => {
         console.error(e)
+        alert('投稿に失敗しました')
     })
 }
 </script>

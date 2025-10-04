@@ -41,6 +41,7 @@ http
 .post('/api/threads', params)
 .then(res => {
     data.value = res.data
+    Pinia().setTitle(res.data.board.name)
 })
 .catch(e => {
     console.error(e)
