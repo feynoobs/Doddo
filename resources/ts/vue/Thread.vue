@@ -1,14 +1,19 @@
 <template>
     <div class="wrap">
         <ResponseList v-if="data !== undefined" v-bind:data="data"></ResponseList>
-        <button type="button" v-on:click="post">書き込む</button>
-        <div>
-            <span>名前:</span>
-            <input v-model="name" class="border" type="text" name="name">
-            <span>E-mail:</span>
-            <input v-model="email" class="border" type="email" name="email">
-        </div>
-        <textarea v-model="message" rows="4" cols="12"></textarea>
+        <form @submit.prevent="post">
+            <button type="submit">書き込む</button>
+            <div>
+                <span>名前:</span>
+                <input v-model="name" class="border" type="text" name="name">
+                <span>{{ nameError }}</span>
+                <span>E-mail:</span>
+                <input v-model="email" class="border" type="email" name="email">
+                <span>{{ emailError }}</span>
+            </div>
+            <textarea v-model="message" rows="4" cols="12"></textarea>
+            <span>{{ messageError }}</span>
+        </form>
     </div>
 </template>
 
@@ -20,14 +25,14 @@ div.wrap {
     padding: 20px 20px;
 }
 
-div.wrap > textarea {
+div.wrap textarea {
     word-wrap: break-word;
     padding: 0.5em;
     border: solid 1px #333;
     min-width: 40em;
 }
 
-div.wrap > button {
+div.wrap button {
     display: block;
     padding: 10px 20px;
     border-radius: 10px;
@@ -35,11 +40,11 @@ div.wrap > button {
     margin-bottom: 10px;
 }
 
-div.wrap > div {
+div.wrap div {
     margin-bottom: 10px;
 }
 
-div.wrap > div > input.border {
+div.wrap input.border {
     border: 1px solid #ccc;
     padding: 5px;
 }
@@ -47,18 +52,15 @@ div.wrap > div > input.border {
 
 <script setup lang="ts">
 import { ref } from 'vue'
-
 import ResponseList from './item/ResponseList.vue'
 import http from '../http'
 import { Pinia } from '../pinia'
-
-import { useForm } from 'vee-validate'
+import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
 
 const props = defineProps({
     id: Number
 })
-
 const data = ref<{value: any}>()
 
 const params = new URLSearchParams()
@@ -73,17 +75,38 @@ http
     console.error(e)
 })
 
-const name = ref<string>()
-const email = ref<string>()
-const message = ref<string>()
-
 const schema = yup.object({
     name: yup.string().nullable(),
     email: yup.string().nullable(),
     message: yup.string().required('メッセージは必須です'),
 })
-const { handleSubmit, errors, values } = useForm({ validationSchema: schema })
+const { handleSubmit } = useForm({ validationSchema: schema })
+const { value: name, errorMessage: nameError } = useField('name')
+const { value: email, errorMessage: emailError } = useField('email')
+const { value: message, errorMessage: messageError } = useField('message')
 
+const post = handleSubmit((values) => {
+    const params = new URLSearchParams()
+    params.append('name', (values.name ?? '') as string)
+    params.append('email', (values.email ?? '') as string)
+    params.append('message', (values.message ?? '') as string)
+    params.append('ip', '255.255.255.255')
+    params.append('thread_id', (props.id ?? '') as string)
+
+    http.post('/api/post', params)
+        .then(res => {
+            const params = new URLSearchParams()
+            params.append('id', (props.id ?? '').toString())
+            return http.post('/api/responses', params)
+        })
+        .then(res => {
+            data.value = res.data
+        })
+        .catch(e => {
+            console.error(e)
+        })
+})
+/*
 const post = () => {
     const params = new URLSearchParams()
 
@@ -103,12 +126,11 @@ const post = () => {
         return http.post('/api/responses', params)
     })
     .then(res => {
-            data.value = res.data
-            alert('投稿しました')
+        data.value = res.data
     })
     .catch(e => {
         console.error(e)
-        alert('投稿に失敗しました')
     })
 }
+*/
 </script>
