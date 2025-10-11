@@ -12,7 +12,7 @@
                 <span>{{ emailError }}</span>
             </div>
             <textarea v-model="message" rows="4" cols="12"></textarea>
-            <span>{{ messageError }}</span>
+            <p class="error">{{ messageError }}</p>
         </form>
     </div>
 </template>
@@ -31,7 +31,6 @@ div.wrap textarea {
     border: solid 1px #333;
     min-width: 40em;
 }
-
 div.wrap button {
     display: block;
     padding: 10px 20px;
@@ -48,6 +47,11 @@ div.wrap input.border {
     border: 1px solid #ccc;
     padding: 5px;
 }
+
+div.wrap p.error {
+    color: #d00;
+}
+
 </style>
 
 <script setup lang="ts">
@@ -65,32 +69,30 @@ const data = ref<{value: any}>()
 
 const params = new URLSearchParams()
 params.append('id', (props.id ?? '').toString())
-http
-.post('/api/responses', params)
-.then(res => {
-    Pinia().setTitle(res.data.thread.name)
-    data.value = res.data
-})
-.catch(e => {
-    console.error(e)
-})
+http.post('/api/responses', params)
+    .then(res => {
+        Pinia().setTitle(res.data.thread.name)
+        data.value = res.data
+    })
+    .catch(e => {
+        console.error(e)
+    })
 
 const schema = yup.object({
     name: yup.string().nullable(),
     email: yup.string().nullable(),
     message: yup.string().required('メッセージは必須です'),
 })
-const { handleSubmit } = useForm({ validationSchema: schema })
+const { handleSubmit, resetForm } = useForm({ validationSchema: schema })
 const { value: name, errorMessage: nameError } = useField('name')
 const { value: email, errorMessage: emailError } = useField('email')
-const { value: message, errorMessage: messageError } = useField('message')
+const { value: message, errorMessage: messageError, resetField: resetMessage } = useField('message')
 
 const post = handleSubmit((values) => {
     const params = new URLSearchParams()
     params.append('name', (values.name ?? '') as string)
     params.append('email', (values.email ?? '') as string)
     params.append('message', (values.message ?? '') as string)
-    params.append('ip', '255.255.255.255')
     params.append('thread_id', (props.id ?? '') as string)
 
     http.post('/api/post', params)
@@ -100,9 +102,12 @@ const post = handleSubmit((values) => {
             return http.post('/api/responses', params)
         })
         .then(res => {
+            alert('投稿しました。')
+            resetMessage()
             data.value = res.data
         })
         .catch(e => {
+            alert('エラーは発生しました。')
             console.error(e)
         })
 })

@@ -17,8 +17,10 @@ class PostController extends Controller
         $request->validate([
             'name' => 'nullable',
             'email' => 'nullable',
-            'ip' => 'required',
             'message' => 'required'
+        ]);
+        $request->merge([
+            'ip' => $request->ip(),
         ]);
         Response::create($request->all());
 
