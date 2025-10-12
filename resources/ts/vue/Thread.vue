@@ -111,31 +111,4 @@ const post = handleSubmit((values) => {
             console.error(e)
         })
 })
-/*
-const post = () => {
-    const params = new URLSearchParams()
-
-    params.append('name', (name.value ?? '') as string)
-    params.append('email', (email.value ?? '') as string)
-    params.append('message', (message.value ?? '') as string)
-    params.append('ip', '255.255.255.255')
-    params.append('thread_id', (props.id ?? '') as string)
-
-    http
-    .post('/api/post', params)
-    .then(res => {
-        console.log(res)
-        // data.value = res.data
-        const params = new URLSearchParams()
-        params.append('id', (props.id ?? '').toString())
-        return http.post('/api/responses', params)
-    })
-    .then(res => {
-        data.value = res.data
-    })
-    .catch(e => {
-        console.error(e)
-    })
-}
-*/
 </script>

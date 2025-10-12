@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="inner_wrap">
         <div v-if="props.groups !== undefined" class="group" v-for="(v1, k1) in props.groups" v-bind:key="k1">
             <p class="gname">{{ v1.group.name }}</p>
             <ul v-for="(v2, k2) in v1.boards" v-bind:key="k2">
@@ -13,7 +13,7 @@
 div.wrap {
     margin: 0 auto;
 }
-div.container {
+div.inner_wrap {
     width: 80%;
     display: flex;
     flex-wrap: wrap;

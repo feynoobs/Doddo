@@ -19,6 +19,7 @@ class ResponseListController extends Controller
 
         if (!is_null($thread)) {
             $responses['thread'] = $thread;
+            $responses['board'] = Thread::find($request->id)->board;
             $responses['responses'] = Thread::find($thread->id)->responses;
         }
 

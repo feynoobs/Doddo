@@ -1,4 +1,7 @@
 <template>
+    <div>
+        <router-link v-bind:to="{name: 'board', params: {'id': data!.board.id }}" class="back">スレッド一覧に戻る</router-link>
+    </div>
     <div class="inner_wrap" v-if="data !== undefined">
         <div class="tname">{{ data!.thread.name }}</div>
         <dl class="response">
@@ -30,6 +33,18 @@
 </template>
 
 <style scoped>
+.back {
+    color: #333;
+    background-color: #fff;
+    text-decoration: none;
+    padding: 4px 8px;
+    transition: all 0.3s ease;
+}
+
+.back:hover {
+    color: #fff;             /* 文字色を背景色に */
+    background-color: #333;  /* 背景色を文字色に */
+}
 
 dl.response {
     display: flex;

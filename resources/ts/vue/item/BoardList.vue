@@ -33,6 +33,4 @@ div.inner_wrap {
 const props = defineProps({
     data: Object
 });
-// console.log(props.data.group.name)
-// console.log(props.data.boards[0].name)
 </script>

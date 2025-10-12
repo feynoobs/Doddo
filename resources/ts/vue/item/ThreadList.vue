@@ -1,4 +1,7 @@
 <template>
+    <div>
+        <router-link v-bind:to="{name: 'group'}" class="back">板一覧に戻る</router-link>
+    </div>
     <div class="inner_wrap" v-if="props.data !== undefined">
         <div class="gname">{{ props.data!.board.name }}</div>
         <ul class="group">
@@ -8,6 +11,19 @@
 </template>
 
 <style scoped>
+.back {
+    color: #333;
+    background-color: #fff;
+    text-decoration: none;
+    padding: 4px 8px;
+    transition: all 0.3s ease;
+}
+
+.back:hover {
+    color: #fff;             /* 文字色を背景色に */
+    background-color: #333;  /* 背景色を文字色に */
+}
+
 div.gname {
     font-size: 24px;
     color: #333;
