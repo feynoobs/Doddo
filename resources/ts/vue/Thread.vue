@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <ResponseList v-if="data !== undefined" v-bind:data="data"></ResponseList>
-        <form @submit.prevent="post">
+        <form @submit.prevent="post" novalidate>
             <button type="submit">書き込む</button>
             <div>
                 <span>名前:</span>
@@ -84,9 +84,9 @@ const schema = yup.object({
     message: yup.string().required('メッセージは必須です'),
 })
 const { handleSubmit, resetForm } = useForm({ validationSchema: schema })
-const { value: name, errorMessage: nameError } = useField('name')
-const { value: email, errorMessage: emailError } = useField('email')
-const { value: message, errorMessage: messageError, resetField: resetMessage } = useField('message')
+const { value: name, errorMessage: nameError } = useField<string | null>('name')
+const { value: email, errorMessage: emailError } = useField<string | null>('email')
+const { value: message, errorMessage: messageError, resetField: resetMessage } = useField<string>('message')
 
 const post = handleSubmit((values) => {
     const params = new URLSearchParams()
