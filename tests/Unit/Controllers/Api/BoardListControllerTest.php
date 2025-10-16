@@ -12,6 +12,9 @@ class BoardListControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * グループごとの板一覧を返し、構造と件数が正しいことを検証する
+     */
     public function test_board_list_controller_returns_groups_with_boards(): void
     {
         // Create test data
@@ -28,19 +31,22 @@ class BoardListControllerTest extends TestCase
         Board::create([
             'group_id' => $group1->id,
             'name' => 'Board 1-1',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         Board::create([
             'group_id' => $group1->id,
             'name' => 'Board 1-2',
-            'sequence' => 2
+            'sequence' => 2,
+            'default_response_name' => 'Anon'
         ]);
 
         Board::create([
             'group_id' => $group2->id,
             'name' => 'Board 2-1',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         // Execute the controller
@@ -74,6 +80,9 @@ class BoardListControllerTest extends TestCase
         $this->assertCount(1, $data[$group2->id]['boards']);
     }
 
+    /**
+     * グループが存在しない場合、空配列が返ることを検証する
+     */
     public function test_board_list_controller_returns_empty_array_when_no_groups(): void
     {
         // Execute the controller with no data
@@ -88,6 +97,9 @@ class BoardListControllerTest extends TestCase
         $this->assertEmpty($data);
     }
 
+    /**
+     * 板が存在しないグループが含まれる場合のレスポンス構造を検証する
+     */
     public function test_board_list_controller_handles_groups_without_boards(): void
     {
         // Create a group without boards

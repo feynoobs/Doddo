@@ -15,6 +15,9 @@ class ResponseListControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * 指定したスレッドに紐づくレスポンス一覧とスレッド情報を返すことを検証する
+     */
     public function test_response_list_controller_returns_thread_with_responses(): void
     {
         // Create test data
@@ -26,7 +29,8 @@ class ResponseListControllerTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         $thread = Thread::create([
@@ -77,6 +81,9 @@ class ResponseListControllerTest extends TestCase
         $this->assertEquals('Second message', $data['responses'][1]['message']);
     }
 
+    /**
+     * 存在しないスレッドIDを指定した場合、空配列が返ることを検証する
+     */
     public function test_response_list_controller_returns_empty_array_when_thread_not_found(): void
     {
         // Create request with non-existent thread id
@@ -94,6 +101,9 @@ class ResponseListControllerTest extends TestCase
         $this->assertEmpty($data);
     }
 
+    /**
+     * レスポンスが存在しないスレッドを指定した場合のレスポンス構造を検証する
+     */
     public function test_response_list_controller_handles_thread_without_responses(): void
     {
         // Create test data
@@ -105,7 +115,8 @@ class ResponseListControllerTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         $thread = Thread::create([
@@ -138,6 +149,9 @@ class ResponseListControllerTest extends TestCase
         $this->assertCount(0, $data['responses']);
     }
 
+    /**
+     * リクエストにIDが無い場合、空配列が返ることを検証する
+     */
     public function test_response_list_controller_without_id_parameter(): void
     {
         // Create request without id parameter
@@ -155,6 +169,9 @@ class ResponseListControllerTest extends TestCase
         $this->assertEmpty($data);
     }
 
+    /**
+     * レスポンスがID順（作成順）で並んでいることを検証する
+     */
     public function test_response_list_controller_returns_responses_ordered_by_id(): void
     {
         // Create test data
@@ -166,7 +183,8 @@ class ResponseListControllerTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         $thread = Thread::create([

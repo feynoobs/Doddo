@@ -10,6 +10,9 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * ユーザーが作成でき、属性値とパスワードのハッシュ化を検証する
+     */
     public function test_user_can_be_created(): void
     {
         $user = User::create([
@@ -24,6 +27,9 @@ class UserTest extends TestCase
         $this->assertNotEquals('password123', $user->password); // Password should be hashed
     }
 
+    /**
+     * fillable 属性に想定の項目が設定されていることを検証する
+     */
     public function test_user_fillable_attributes(): void
     {
         $user = new User();
@@ -32,6 +38,9 @@ class UserTest extends TestCase
         $this->assertEquals($expectedFillable, $user->getFillable());
     }
 
+    /**
+     * hidden 属性に想定の項目が設定されていることを検証する
+     */
     public function test_user_hidden_attributes(): void
     {
         $user = new User();
@@ -40,6 +49,9 @@ class UserTest extends TestCase
         $this->assertEquals($expectedHidden, $user->getHidden());
     }
 
+    /**
+     * 作成時にパスワードがハッシュ化され、元の値で保存されないことを検証する
+     */
     public function test_password_is_hashed_when_created(): void
     {
         $user = User::create([
@@ -53,6 +65,9 @@ class UserTest extends TestCase
         $this->assertTrue(strlen($user->password) > 20); // Hashed passwords are longer
     }
 
+    /**
+     * email_verified_at がデフォルトで null であることを検証する
+     */
     public function test_email_verified_at_can_be_null(): void
     {
         $user = User::create([

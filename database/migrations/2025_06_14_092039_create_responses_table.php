@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('thread_id')->comment('所属するスレッドのID');
-            $table->string('name')->nullable()->comment('名前');
+            $table->string('name')->comment('名前');
             $table->string('email')->nullable()->comment('メールアドレス');
             $table->string('uid')->nullable()->comment('投稿者のID');
             $table->string('ip')->comment('投稿者のIPアドレス');

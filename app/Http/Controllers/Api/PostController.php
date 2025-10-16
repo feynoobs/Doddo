@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Thread;
 use App\Models\Response;
 
 class PostController extends Controller
@@ -19,6 +20,17 @@ class PostController extends Controller
             'email' => 'nullable',
             'message' => 'required'
         ]);
+
+        // nameの値を取得
+        $name = $request->input('name');
+        if (is_null($name)) {
+            $tid = $request->input('thread_id');
+            $name = Thread::find($tid)->board->default_response_name;
+            $request->merge([
+                'name' => $name,
+            ]);
+        }
+        
         $request->merge([
             'ip' => $request->ip(),
         ]);

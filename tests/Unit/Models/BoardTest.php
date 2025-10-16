@@ -12,6 +12,9 @@ class BoardTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * 板が作成でき、属性値が正しく保存されることを検証する
+     */
     public function test_board_can_be_created(): void
     {
         $group = Group::create([
@@ -22,7 +25,8 @@ class BoardTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         $this->assertInstanceOf(Board::class, $board);
@@ -31,14 +35,20 @@ class BoardTest extends TestCase
         $this->assertEquals(1, $board->sequence);
     }
 
+    /**
+     * fillable 属性に想定の項目が設定されていることを検証する
+     */
     public function test_board_fillable_attributes(): void
     {
         $board = new Board();
         
-        $expectedFillable = ['group_id', 'name', 'sequence'];
+        $expectedFillable = ['group_id', 'name', 'sequence', 'default_response_name'];
         $this->assertEquals($expectedFillable, $board->getFillable());
     }
 
+    /**
+     * グループへの belongsTo 関係が正しく機能することを検証する
+     */
     public function test_board_belongs_to_group(): void
     {
         $group = Group::create([
@@ -49,12 +59,16 @@ class BoardTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         $this->assertEquals($group->id, $board->group_id);
     }
 
+    /**
+     * threads リレーションが取得できることを検証する
+     */
     public function test_board_has_threads_relationship(): void
     {
         $group = Group::create([
@@ -65,7 +79,8 @@ class BoardTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         $thread = Thread::create([
@@ -78,6 +93,9 @@ class BoardTest extends TestCase
         $this->assertEquals('Test Thread', $board->threads()->first()->name);
     }
 
+    /**
+     * 複数スレッドを持てること（hasMany）が正しく機能することを検証する
+     */
     public function test_board_can_have_multiple_threads(): void
     {
         $group = Group::create([
@@ -88,7 +106,8 @@ class BoardTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         Thread::create([
@@ -106,6 +125,9 @@ class BoardTest extends TestCase
         $this->assertEquals(2, $board->threads()->count());
     }
 
+    /**
+     * ソフトデリートが有効に機能することを検証する
+     */
     public function test_board_uses_soft_deletes(): void
     {
         $group = Group::create([
@@ -116,7 +138,8 @@ class BoardTest extends TestCase
         $board = Board::create([
             'group_id' => $group->id,
             'name' => 'Test Board',
-            'sequence' => 1
+            'sequence' => 1,
+            'default_response_name' => 'Anon'
         ]);
 
         $board->delete();
