@@ -16,7 +16,7 @@ jobs:
                 env:
                     MYSQL_ROOT_PASSWORD: password
                     MYSQL_DATABASE: testing
-                    MYSQL_USER: root
+                    MYSQL_USER: sail
                     MYSQL_PASSWORD: password
                     MYSQL_ALLOW_EMPTY_PASSWORD: 1
                 ports:
