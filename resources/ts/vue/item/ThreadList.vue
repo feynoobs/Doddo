@@ -5,7 +5,7 @@
     <div class="inner_wrap" v-if="data !== undefined">
         <div class="gname">{{ data!.board.name }}</div>
         <ul class="group">
-            <li v-for="(v, k) in data!.threads" v-bind:key="k" class="link"><router-link v-bind:to="{name: 'thread', params:{id: v.id}}">{{ v.name }}</router-link></li>
+            <li v-for="(v, k) in data!.threads" v-bind:key="k" class="link"><router-link v-bind:to="{name: 'thread', params:{id: v.id}}">{{ v.name }}（{{v.responses_count}}）</router-link>&nbsp;</li>
         </ul>
     </div>
 </template>

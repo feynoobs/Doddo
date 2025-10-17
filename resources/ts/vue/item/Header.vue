@@ -1,6 +1,6 @@
 <template>
     <div class="center">
-        <span class="inner">{{ title }}</span>
+        <span class="inner_wrap">{{ title }}</span>
     </div>
 </template>
 
@@ -10,7 +10,7 @@ div.center {
     height: 100px;
     text-align: center;
 }
-span.inner {
+span.inner_wrap {
     position: absolute;
     top: 50%;
     left: 50%;

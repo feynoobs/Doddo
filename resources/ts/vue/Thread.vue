@@ -83,7 +83,7 @@ const schema = yup.object({
     email: yup.string().nullable(),
     message: yup.string().required('メッセージは必須です'),
 })
-const { handleSubmit, resetForm } = useForm({ validationSchema: schema })
+const { handleSubmit } = useForm({ validationSchema: schema })
 const { value: name, errorMessage: nameError } = useField<string | null>('name')
 const { value: email, errorMessage: emailError } = useField<string | null>('email')
 const { value: message, errorMessage: messageError, resetField: resetMessage } = useField<string>('message')

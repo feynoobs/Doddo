@@ -19,7 +19,7 @@ class ThreadListController extends Controller
 
         if (!is_null($board)) {
             $responses['board'] = $board;
-            $responses['threads'] = Board::find($board->id)->threads;
+            $responses['threads'] = $board->threads()->withCount('responses')->get();
         }
 
         return response()->json($responses, 200);
