@@ -2,10 +2,10 @@
     <div>
         <router-link v-bind:to="{name: 'group'}" class="back">板一覧に戻る</router-link>
     </div>
-    <div class="inner_wrap" v-if="props.data !== undefined">
-        <div class="gname">{{ props.data!.board.name }}</div>
+    <div class="inner_wrap" v-if="data !== undefined">
+        <div class="gname">{{ data!.board.name }}</div>
         <ul class="group">
-            <li v-for="(v, k) in props.data!.threads" v-bind:key="k" class="link"><router-link v-bind:to="{name: 'thread', params:{id: v.id}}">{{ v.name }}</router-link></li>
+            <li v-for="(v, k) in data!.threads" v-bind:key="k" class="link"><router-link v-bind:to="{name: 'thread', params:{id: v.id}}">{{ v.name }}</router-link></li>
         </ul>
     </div>
 </template>
@@ -45,7 +45,7 @@ div.inner_wrap {
 </style>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
     data: Object,
 });
 </script>
