@@ -17,11 +17,17 @@
     text-decoration: none;
     padding: 4px 8px;
     transition: all 0.3s ease;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 40px;
+    width: 180px;
 }
 
 .back:hover {
-    color: #fff;             /* 文字色を背景色に */
-    background-color: #333;  /* 背景色を文字色に */
+    color: #fff;
+    background-color: #333;
 }
 
 div.gname {

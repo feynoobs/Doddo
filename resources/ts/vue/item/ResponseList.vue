@@ -39,6 +39,13 @@
     text-decoration: none;
     padding: 4px 8px;
     transition: all 0.3s ease;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 40px;
+    width: 180px;
+    margin-bottom: 20px;
 }
 
 .back:hover {
@@ -87,6 +94,7 @@ dl.response > dt > span.rname {
     width: auto;
     min-width: 150px;
     font-weight: normal;
+    color:#060;
 }
 
 dl.response > dt > a > span.rname {
@@ -132,5 +140,4 @@ const dateformat = (date: string) : string =>
     return `${year}/${month}/${day}(${week}) ${hour}:${minute}:${second}`
 }
 
-// console.log(props.data)
 </script>
