@@ -46,7 +46,7 @@ li.link:hover {
     color: blue;
 }
 div.inner_wrap {
-    margin: 20px 10%;
+    margin: 20px 10px;
 }
 </style>
 

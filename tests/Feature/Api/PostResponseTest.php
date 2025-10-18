@@ -3,15 +3,14 @@
 namespace Tests\Feature\Api;
 
 use App\Models\Thread;
-use App\Models\Response as ThreadResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class PostTest extends TestCase
+class PostResponseTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_post_endpoint_validates_and_creates_response(): void
+    public function test_post_response_endpoint_validates_and_creates_response(): void
     {
         $thread = Thread::factory()->create();
 
@@ -34,9 +33,9 @@ class PostTest extends TestCase
         ]);
     }
 
-    public function test_post_endpoint_requires_message(): void
+    public function test_post_response_endpoint_requires_message(): void
     {
-        $response = $this->postJson(route('api.post'), []);
+        $response = $this->postJson(route('api.post.response'), []);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['message']);
     }
