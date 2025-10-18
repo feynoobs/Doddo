@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Thread;
 use App\Models\Response;
 
-class PostController extends Controller
+class PostResponseController extends Controller
 {
     /**
      * Handle the incoming request.

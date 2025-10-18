@@ -51,7 +51,6 @@ div.wrap input.border {
 div.wrap p.error {
     color: #d00;
 }
-
 </style>
 
 <script setup lang="ts">
@@ -95,7 +94,7 @@ const post = handleSubmit((values) => {
     params.append('message', (values.message ?? '') as string)
     params.append('thread_id', (props.id ?? '') as string)
 
-    http.post('/api/post', params)
+    http.post('/api/post/thread', params)
         .then(res => {
             const params = new URLSearchParams()
             params.append('id', (props.id ?? '').toString())

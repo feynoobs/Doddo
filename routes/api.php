@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BoardListContoller;
 use App\Http\Controllers\Api\ThreadListController;
 use App\Http\Controllers\Api\ResponseListController;
-use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\PostResponseController;
+use App\Http\Controllers\Api\PostTreadController;
 
 Route::group(['as' => 'api.', 'middleware' => ['api']], function() {
     Route::post('/boards', BoardListContoller::class)->name('boards');
     Route::post('/threads', ThreadListController::class)->name('threads');
     Route::post('/responses', ResponseListController::class)->name('responses');
-    Route::post('/post', PostController::class)->name('post');
+    Route::post('/post/response', PostResponseController::class)->name('post_response');
+    Route::post('/post/thread', PostTreadController::class)->name('post_response');
 });
