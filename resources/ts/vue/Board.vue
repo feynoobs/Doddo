@@ -1,11 +1,11 @@
 <template>
     <div class="wrap">
         <ThreadList v-bind:data="data"></ThreadList>
-        <form @submit.prevent="post" novalidate class="post">
-            <button type="submit">書き込む</button>
+        <form @submit.prevent="post" novalidate class="mt-[50px]">
+            <button type="submit" class="mt-[10px]">スレッドを作る</button>
             <div>
                 <span>タイトル：</span>
-                <input v-model="title" type="text" name="title" class="long">
+                <input v-model="title" type="text" name="title" class="border inline-block w-[250px]">
                 <p class="error">{{ titleError }}</p>
             </div>
             <div>
@@ -49,10 +49,6 @@ div.wrap div {
     margin-bottom: 10px;
 }
 
-div.wrap form.post {
-    margin-top: 50px;
-}
-
 div.wrap input.border {
     border: 1px solid #ccc;
     padding: 5px;
@@ -61,12 +57,10 @@ div.wrap input.border {
 div.wrap input.long {
     border: 1px solid #ccc;
     padding: 5px;
+    width: 250px;
+    display: inline-block;
 }
 
-
-div.wrap p.error {
-    color: #d00;
-}
 </style>
 
 <script setup lang="ts">

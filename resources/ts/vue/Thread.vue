@@ -47,10 +47,6 @@ div.wrap input.border {
     border: 1px solid #ccc;
     padding: 5px;
 }
-
-div.wrap p.error {
-    color: #d00;
-}
 </style>
 
 <script setup lang="ts">
