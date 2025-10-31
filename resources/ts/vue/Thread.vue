@@ -58,7 +58,7 @@ import { useForm, useField } from 'vee-validate'
 import * as yup from 'yup'
 
 const props = defineProps({
-    id: Number
+    id: String
 })
 const data = ref<{value: any}>()
 
@@ -68,6 +68,7 @@ http.post('/api/responses', params)
     .then(res => {
         Pinia().setTitle(res.data.thread.name)
         data.value = res.data
+        console.log(res.data)
     })
     .catch(e => {
         console.error(e)
@@ -90,19 +91,15 @@ const post = handleSubmit((values) => {
     params.append('message', (values.message ?? '') as string)
     params.append('thread_id', (props.id ?? '') as string)
 
-    http.post('/api/post/thread', params)
-        .then(res => {
-            const params = new URLSearchParams()
-            params.append('id', (props.id ?? '').toString())
-            return http.post('/api/responses', params)
-        })
+    http.post('/api/post/response', params)
         .then(res => {
             alert('投稿しました。')
             resetMessage()
+            console.log(res.data)
             data.value = res.data
         })
         .catch(e => {
-            alert('エラーは発生しました。')
+            alert('エラーが発生しました。')
             console.error(e)
         })
 })

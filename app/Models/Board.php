@@ -25,6 +25,6 @@ class Board extends Model
 
     public function threads(): HasMany
     {
-        return $this->hasMany(Thread::class);
+        return $this->hasMany(Thread::class)->orderBy('sequence');
     }
 }

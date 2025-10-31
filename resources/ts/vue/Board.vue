@@ -76,7 +76,7 @@ import * as yup from 'yup'
 Pinia().setTitle('板')
 
 const props = defineProps({
-    id: Number
+    id: String
 });
 const router = useRouter()
 const data = ref<{value: any}>()
@@ -114,11 +114,6 @@ const post = handleSubmit((values) => {
     params.append('title', (values.title ?? '') as string)
 
     http.post('/api/post/thread', params)
-        .then(() => {
-            const params = new URLSearchParams()
-            params.append('id', (props.id ?? '').toString())
-            return http.post('/api/responses', params)
-        })
         .then(res => {
             alert('投稿しました。')
             resetMessage()

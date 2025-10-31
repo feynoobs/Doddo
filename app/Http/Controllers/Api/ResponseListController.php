@@ -14,13 +14,13 @@ class ResponseListController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $thread = Thread::find($request->id);
+        $thread = Thread::find($request->id)->orderBy('sequence');
         $responses = [];
 
         if (!is_null($thread)) {
             $responses['thread'] = $thread;
             $responses['board'] = Thread::find($request->id)->board;
-            $responses['responses'] = Thread::find($thread->id)->responses;
+            $responses['responses'] = Thread::find($request->id)->responses;
         }
 
         return response()->json($responses, 200);

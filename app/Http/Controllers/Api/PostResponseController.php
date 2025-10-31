@@ -18,7 +18,8 @@ class PostResponseController extends Controller
         $request->validate([
             'name' => 'nullable',
             'email' => 'nullable',
-            'message' => 'required'
+            'message' => 'required',
+            'thread_id' => 'required',
         ]);
 
         // nameの値を取得
@@ -36,6 +37,11 @@ class PostResponseController extends Controller
         ]);
         Response::create($request->all());
 
-        return response()->json([], 200);
+        $responses = [];
+        $responses['thread'] = Thread::find($request->input('thread_id'))->orderBy('sequence');
+        $responses['board'] = Thread::find($request->input('thread_id'))->board;
+        $responses['responses'] = Thread::find($request->input('thread_id'))->responses;
+
+        return response()->json($responses, 200);
     }
 }

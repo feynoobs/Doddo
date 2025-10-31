@@ -25,7 +25,7 @@ class Thread extends Model
 
     public function board(): BelongsTo
     {
-        return $this->belongsTo(Board::class, 'board_id');
+        return $this->belongsTo(Board::class, 'board_id')->orderBy('sequence');
     }
 
     public function responses(): HasMany
