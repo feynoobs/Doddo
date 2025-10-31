@@ -1,8 +1,8 @@
 <template>
     <details class="inner_wrap">
-        <summary v-if="data !== undefined" class="gname">{{ data!.group.name }}</summary>
+        <summary v-if="props.data !== undefined" class="gname">{{ props.data!.group.name }}</summary>
         <ul>
-            <li v-for="(v, k) in data!.boards" v-bind:key="k" class="link"><router-link v-bind:to="{name: 'board', params:{id: v.id}}">{{ v.name }}</router-link></li>
+            <li v-for="(v, k) in props.data!.boards" v-bind:key="k" class="link"><router-link v-bind:to="{name: 'board', params:{id: v.id}}">{{ v.name }}</router-link></li>
         </ul>
     </details>
 </template>
@@ -38,7 +38,7 @@ details[open] > ul {
 </style>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     data: Object
 });
 </script>

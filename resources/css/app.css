@@ -7,10 +7,7 @@ body {
     background-repeat: repeat;
 }
 
-p.error {
+div.error {
     color: #d00;
 }
 
-p {
-    margin: 0;
-}

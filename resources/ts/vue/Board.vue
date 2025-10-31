@@ -5,8 +5,8 @@
             <button type="submit" class="mt-[10px]">スレッドを作る</button>
             <div>
                 <span>タイトル：</span>
-                <input v-model="title" type="text" name="title" class="border inline-block w-[250px]">
-                <p class="error">{{ titleError }}</p>
+                <input v-model="title" type="text" name="title" class="border inline-block w-[450px]">
+                <div class="error">{{ titleError }}</div>
             </div>
             <div>
                 <span>名前：</span>
@@ -17,7 +17,7 @@
                 <span>{{ emailError }}</span>
             </div>
             <textarea v-model="message" rows="4" cols="12"></textarea>
-            <p class="error">{{ messageError }}</p>
+            <div class="error">{{ messageError }}</div>
         </form>
     </div>
 </template>
@@ -65,6 +65,7 @@ div.wrap input.long {
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import ThreadList from './item/ThreadList.vue'
 import http from '../http'
@@ -77,7 +78,7 @@ Pinia().setTitle('板')
 const props = defineProps({
     id: Number
 });
-
+const router = useRouter()
 const data = ref<{value: any}>()
 
 const params = new URLSearchParams()
@@ -109,10 +110,11 @@ const post = handleSubmit((values) => {
     params.append('name', (values.name ?? '') as string)
     params.append('email', (values.email ?? '') as string)
     params.append('message', (values.message ?? '') as string)
-    params.append('thread_id', (props.id ?? '') as string)
+    params.append('board_id', (props.id ?? '') as string)
+    params.append('title', (values.title ?? '') as string)
 
-    http.post('/api/post', params)
-        .then(res => {
+    http.post('/api/post/thread', params)
+        .then(() => {
             const params = new URLSearchParams()
             params.append('id', (props.id ?? '').toString())
             return http.post('/api/responses', params)
@@ -120,12 +122,11 @@ const post = handleSubmit((values) => {
         .then(res => {
             alert('投稿しました。')
             resetMessage()
-            data.value = res.data
+            router.push({ name: 'thread', params: { id: res.data.thread_id } })
         })
         .catch(e => {
             alert('エラーは発生しました。')
             console.error(e)
         })
 })
-
 </script>

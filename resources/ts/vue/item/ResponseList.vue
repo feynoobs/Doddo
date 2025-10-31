@@ -1,11 +1,11 @@
 <template>
     <div>
-        <router-link v-bind:to="{name: 'board', params: {'id': data!.board.id }}" class="back">スレッド一覧に戻る</router-link>
+        <router-link v-bind:to="{name: 'board', params: {'id': props.data!.board.id }}" class="back">スレッド一覧に戻る</router-link>
     </div>
-    <div class="inner_wrap" v-if="data !== undefined">
-        <div class="tname">{{ data!.thread.name }}</div>
+    <div class="inner_wrap" v-if="props.data !== undefined">
+        <div class="tname">{{ props.data!.thread.name }}</div>
         <dl class="response">
-            <template v-for="(v, k) in data!.responses">
+            <template v-for="(v, k) in props.data!.responses">
                 <dt>
                     <span class="id">{{ k+1 }}</span>
                     <span class="name">名前:</span>
@@ -122,7 +122,7 @@ div.inner_wrap > div.tname{
 </style>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     data: Object,
 });
 

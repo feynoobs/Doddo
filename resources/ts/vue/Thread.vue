@@ -12,7 +12,7 @@
                 <span>{{ emailError }}</span>
             </div>
             <textarea v-model="message" rows="4" cols="12"></textarea>
-            <p class="error">{{ messageError }}</p>
+            <div class="error">{{ messageError }}</div>
         </form>
     </div>
 </template>

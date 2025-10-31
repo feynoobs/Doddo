@@ -1,6 +1,6 @@
 <template>
     <div class="inner_wrap">
-        <div v-if="data !== undefined" class="group" v-for="(v1, k1) in data" v-bind:key="k1">
+        <div v-if="props.data !== undefined" class="group" v-for="(v1, k1) in props.data" v-bind:key="k1">
             <p class="gname">{{ v1.group.name }}</p>
             <ul v-for="(v2, k2) in v1.boards" v-bind:key="k2">
                 <li><router-link v-bind:to="{ name: 'threads', params: {bbsid: v2.id} }">{{ v2.name }}</router-link></li>
@@ -35,7 +35,7 @@ ul > li {
 </style>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     data: Object,
 });
 </script>
