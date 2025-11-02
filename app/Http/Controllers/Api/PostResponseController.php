@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Thread;
 use App\Models\Response;
@@ -35,7 +36,21 @@ class PostResponseController extends Controller
         $request->merge([
             'ip' => $request->ip(),
         ]);
-        Response::create($request->all());
+        DB::transaction(function() use ($request) {
+            $isAge = ($request->input('email') !== 'sage');
+            if ($isAge) {
+                $seq = Thread::where('id', '=', $request->input('thread_id'))->first()->sequence;
+                if ($seq > 0) {
+                    $board = Thread::where('id', '=', $request->input('thread_id'))->first()->board;
+                    Thread::where('board_id', '=', $board->id)
+                        ->where('id', '!=', $request->input('thread_id'))
+                        ->update(['sequence' => DB::raw('sequence + 1')]);
+                    Thread::where('id', '=', $request->input('thread_id'))
+                        ->update(['sequence' => 0]);
+                }
+            }
+            Response::create($request->all());
+        });
 
         $responses = [];
         $responses['thread'] = Thread::find($request->input('thread_id'))->orderBy('sequence');

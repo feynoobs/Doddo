@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    background-image: url('../images/ba.jpg');
+    background-image: url('../images/ba.gif');
     background-repeat: repeat;
 }
 
